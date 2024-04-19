@@ -10,6 +10,9 @@
     "generate": "graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.11",
+    "@apollo/server": "^4.10.4",
+    "@as-integrations/next": "^3.0.0",
     "@prisma/client": "5.12.1",
     "@vercel/postgres": "^0.8.0",
     "graphql-scalars": "^1.23.0",
