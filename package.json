@@ -6,21 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
+    "@prisma/client": "5.12.1",
+    "@vercel/postgres": "^0.8.0",
+    "graphql-scalars": "^1.23.0",
+    "graphql-tag": "^2.12.6",
+    "next": "14.2.2",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.2"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.2"
+    "eslint-config-next": "14.2.2",
+    "postcss": "^8",
+    "prisma": "^5.12.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }

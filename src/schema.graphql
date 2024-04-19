@@ -1,0 +1,21 @@
+scalar DateTime
+
+"Standard Player Implementation made for every user"
+type Player {
+  "This will store the player's discord ID"
+  id: ID!
+  "Tracks when a player started playing the game"
+  createdAt: DateTime!
+  "Helps to track player activity based on their last battle"
+  updatedAt: DateTime!
+  "Stores the id of an active battle the player is in"
+  activeBattleId: String
+}
+
+type Query {
+  getPlayer(id: ID!): Player
+}
+
+type Mutation {
+  createPlayer(id: ID!): Player
+}
