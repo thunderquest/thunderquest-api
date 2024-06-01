@@ -6,7 +6,6 @@ import { gql } from "graphql-tag";
 import { readFileSync, existsSync } from "node:fs";
 import { resolvers } from "./resolvers";
 
-// TODO this may need additional logic in production
 const schemaFilePath = path.resolve(process.cwd(), './src/schema.graphql');
 
 if (!existsSync(schemaFilePath)) {
@@ -20,6 +19,8 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     introspection: true,
+    plugins: [
+    ],
 });
 
 // TODO this might cause an issue later.
