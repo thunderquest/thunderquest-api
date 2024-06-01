@@ -19,6 +19,7 @@ const typeDefs = gql(readFileSync(schemaFilePath, 'utf-8'));
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    introspection: true,
 });
 
 // TODO this might cause an issue later.
