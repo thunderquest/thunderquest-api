@@ -10,6 +10,8 @@ export async function getPlayerHeroes(playerId: string): Promise<PlayerHero[]> {
     return dbPlayerHeroes.map(transformDbPlayerHeroToGraphQL)
 }
 
+
+// For internal usage as part of game progression
 export async function addHeroToPlayer(playerId: string, heroId: string): Promise<PlayerHero> {
     const dbPlayerHero = await prisma.playerHero.create({
         data: {
@@ -19,7 +21,6 @@ export async function addHeroToPlayer(playerId: string, heroId: string): Promise
         }
     });
     return transformDbPlayerHeroToGraphQL(dbPlayerHero);
-
 }
 
 export async function getPlayerParty(playerId: string): Promise<PlayerHero[]> {

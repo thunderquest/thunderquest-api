@@ -68,7 +68,6 @@ type Query {
 
 type Mutation {
   createPlayer(id: ID!): Player
-  addHeroToPlayer(playerId: ID!, heroId: ID!): PlayerHero
   addPlayerHeroToParty(playerId: ID!, playerHeroId: ID!, slot: Int!): PlayerHero!
   removePlayerHeroFromParty(playerHeroId: ID!): PlayerHero!
 }

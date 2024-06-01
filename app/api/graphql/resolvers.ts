@@ -4,7 +4,8 @@ import {Player, PlayerHero, Resolvers} from '@/src/types';
 import {heroes} from "@/app/domain/hero-definitions";
 import {skills} from "@/app/domain/skill-definitions";
 import {
-    addHeroToPartySlot, addHeroToPlayer, getPlayerHeroes,
+    addHeroToPartySlot,
+    getPlayerHeroes,
     getPlayerParty,
     removeHeroFromPartySlot
 } from "@/app/api/graphql/transformers/player-hero-transformers";
@@ -12,14 +13,10 @@ import {
 export const resolvers: Resolvers = {
     DateTime: DateTimeResolver,
     Query: {
-        getPlayer: async (_, { id }): Promise<Player> => {
-            const dbResult =  await prisma.player.findUnique({
+        getPlayer: async (_, { id }): Promise<Player | null> => {
+            return prisma.player.findUnique({
                 where: {id}
             });
-            if (!dbResult) {
-                throw new Error(`Player not found for id: ${id}`);
-            }
-            return dbResult;
         },
         getAllHeroes: () => heroes,
         getAllSkills: () => skills,
@@ -35,9 +32,6 @@ export const resolvers: Resolvers = {
             return prisma.player.create({
                 data: {id}
             });
-        },
-        addHeroToPlayer: async (_, { playerId, heroId }): Promise<PlayerHero> => {
-            return addHeroToPlayer(playerId, heroId);
         },
         addPlayerHeroToParty: async (_, { playerId, playerHeroId, slot }): Promise<PlayerHero> => {
             return addHeroToPartySlot(playerId, playerHeroId, slot);
