@@ -15,7 +15,6 @@
     "@as-integrations/next": "^3.0.0",
     "@prisma/client": "5.12.1",
     "@vercel/postgres": "^0.8.0",
-    "graphql-playground-html": "^1.6.30",
     "graphql-scalars": "^1.23.0",
     "graphql-tag": "^2.12.6",
     "next": "14.2.2",
