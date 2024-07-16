@@ -8,66 +8,10 @@ type Player {
   activeBattleId: String
 }
 
-"Represents a hero with basic information"
-type Hero {
-  id: ID!
-  name: String!
-  description: String!
-
-  baseMovement: Int!
-  baseHealth: Int!
-  baseMana: Int!
-  manaRegen: Int!
-  baseAttack: Int!
-  baseDefense: Int!
-  baseMagic: Int!
-  baseResistance: Int!
-
-  healthPerLevel: Int!
-  attackPerLevel: Int!
-  defensePerLevel: Int!
-  magicPerLevel: Int!
-  resistancePerLevel: Int!
-
-  skills: [Skill!]!
-}
-
-"Represents a hero in a battle with battle-specific information"
-type BattleHero {
-  playerHero: PlayerHero!
-  currentHealth: Int!
-}
-
-"Represents a skill that a hero can have"
-type Skill {
-  id: ID!
-  name: String!
-  description: String!
-}
-
-"Represents a hero owned by a player with specific stats"
-type PlayerHero {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  playerId: ID!
-  hero: Hero!
-  level: Int!
-  partySlot: Int
-  # TODO gearing and stats and other modifier stuff
-}
-
-
 type Query {
   getPlayer(id: ID!): Player
-  getAllHeroes: [Hero!]!
-  getAllSkills: [Skill!]!
-  getPlayerHeroes(playerId: ID!): [PlayerHero!]!
-  getParty(playerId: ID!): [PlayerHero!]!
 }
 
 type Mutation {
   createPlayer(id: ID!): Player
-  addPlayerHeroToParty(playerId: ID!, playerHeroId: ID!, slot: Int!): PlayerHero!
-  removePlayerHeroFromParty(playerHeroId: ID!): PlayerHero!
 }

@@ -17,57 +17,14 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
-/** Represents a hero in a battle with battle-specific information */
-export type BattleHero = {
-  __typename?: 'BattleHero';
-  currentHealth: Scalars['Int']['output'];
-  playerHero: PlayerHero;
-};
-
-/** Represents a hero with basic information */
-export type Hero = {
-  __typename?: 'Hero';
-  attackPerLevel: Scalars['Int']['output'];
-  baseAttack: Scalars['Int']['output'];
-  baseDefense: Scalars['Int']['output'];
-  baseHealth: Scalars['Int']['output'];
-  baseMagic: Scalars['Int']['output'];
-  baseMana: Scalars['Int']['output'];
-  baseMovement: Scalars['Int']['output'];
-  baseResistance: Scalars['Int']['output'];
-  defensePerLevel: Scalars['Int']['output'];
-  description: Scalars['String']['output'];
-  healthPerLevel: Scalars['Int']['output'];
-  id: Scalars['ID']['output'];
-  magicPerLevel: Scalars['Int']['output'];
-  manaRegen: Scalars['Int']['output'];
-  name: Scalars['String']['output'];
-  resistancePerLevel: Scalars['Int']['output'];
-  skills: Array<Skill>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  addPlayerHeroToParty: PlayerHero;
   createPlayer?: Maybe<Player>;
-  removePlayerHeroFromParty: PlayerHero;
-};
-
-
-export type MutationAddPlayerHeroToPartyArgs = {
-  playerHeroId: Scalars['ID']['input'];
-  playerId: Scalars['ID']['input'];
-  slot: Scalars['Int']['input'];
 };
 
 
 export type MutationCreatePlayerArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type MutationRemovePlayerHeroFromPartyArgs = {
-  playerHeroId: Scalars['ID']['input'];
 };
 
 /** Standard Player Implementation made for every user */
@@ -79,48 +36,14 @@ export type Player = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-/** Represents a hero owned by a player with specific stats */
-export type PlayerHero = {
-  __typename?: 'PlayerHero';
-  createdAt: Scalars['DateTime']['output'];
-  hero: Hero;
-  id: Scalars['ID']['output'];
-  level: Scalars['Int']['output'];
-  partySlot?: Maybe<Scalars['Int']['output']>;
-  playerId: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
 export type Query = {
   __typename?: 'Query';
-  getAllHeroes: Array<Hero>;
-  getAllSkills: Array<Skill>;
-  getParty: Array<PlayerHero>;
   getPlayer?: Maybe<Player>;
-  getPlayerHeroes: Array<PlayerHero>;
-};
-
-
-export type QueryGetPartyArgs = {
-  playerId: Scalars['ID']['input'];
 };
 
 
 export type QueryGetPlayerArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type QueryGetPlayerHeroesArgs = {
-  playerId: Scalars['ID']['input'];
-};
-
-/** Represents a skill that a hero can have */
-export type Skill = {
-  __typename?: 'Skill';
-  description: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
 };
 
 
@@ -194,71 +117,32 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  BattleHero: ResolverTypeWrapper<BattleHero>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
-  Hero: ResolverTypeWrapper<Hero>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Player: ResolverTypeWrapper<Player>;
-  PlayerHero: ResolverTypeWrapper<PlayerHero>;
   Query: ResolverTypeWrapper<{}>;
-  Skill: ResolverTypeWrapper<Skill>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  BattleHero: BattleHero;
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
-  Hero: Hero;
   ID: Scalars['ID']['output'];
-  Int: Scalars['Int']['output'];
   Mutation: {};
   Player: Player;
-  PlayerHero: PlayerHero;
   Query: {};
-  Skill: Skill;
   String: Scalars['String']['output'];
-};
-
-export type BattleHeroResolvers<ContextType = any, ParentType extends ResolversParentTypes['BattleHero'] = ResolversParentTypes['BattleHero']> = {
-  currentHealth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  playerHero?: Resolver<ResolversTypes['PlayerHero'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
-export type HeroResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hero'] = ResolversParentTypes['Hero']> = {
-  attackPerLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseAttack?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseDefense?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseHealth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseMagic?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseMana?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseMovement?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  baseResistance?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  defensePerLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  healthPerLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  magicPerLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  manaRegen?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  resistancePerLevel?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  skills?: Resolver<Array<ResolversTypes['Skill']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addPlayerHeroToParty?: Resolver<ResolversTypes['PlayerHero'], ParentType, ContextType, RequireFields<MutationAddPlayerHeroToPartyArgs, 'playerHeroId' | 'playerId' | 'slot'>>;
   createPlayer?: Resolver<Maybe<ResolversTypes['Player']>, ParentType, ContextType, RequireFields<MutationCreatePlayerArgs, 'id'>>;
-  removePlayerHeroFromParty?: Resolver<ResolversTypes['PlayerHero'], ParentType, ContextType, RequireFields<MutationRemovePlayerHeroFromPartyArgs, 'playerHeroId'>>;
 };
 
 export type PlayerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Player'] = ResolversParentTypes['Player']> = {
@@ -269,40 +153,14 @@ export type PlayerResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PlayerHeroResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlayerHero'] = ResolversParentTypes['PlayerHero']> = {
-  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  hero?: Resolver<ResolversTypes['Hero'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  level?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  partySlot?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  playerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getAllHeroes?: Resolver<Array<ResolversTypes['Hero']>, ParentType, ContextType>;
-  getAllSkills?: Resolver<Array<ResolversTypes['Skill']>, ParentType, ContextType>;
-  getParty?: Resolver<Array<ResolversTypes['PlayerHero']>, ParentType, ContextType, RequireFields<QueryGetPartyArgs, 'playerId'>>;
   getPlayer?: Resolver<Maybe<ResolversTypes['Player']>, ParentType, ContextType, RequireFields<QueryGetPlayerArgs, 'id'>>;
-  getPlayerHeroes?: Resolver<Array<ResolversTypes['PlayerHero']>, ParentType, ContextType, RequireFields<QueryGetPlayerHeroesArgs, 'playerId'>>;
-};
-
-export type SkillResolvers<ContextType = any, ParentType extends ResolversParentTypes['Skill'] = ResolversParentTypes['Skill']> = {
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  BattleHero?: BattleHeroResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
-  Hero?: HeroResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Player?: PlayerResolvers<ContextType>;
-  PlayerHero?: PlayerHeroResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Skill?: SkillResolvers<ContextType>;
 };
 

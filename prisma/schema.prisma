@@ -19,23 +19,5 @@ model Player {
   updatedAt      DateTime @updatedAt
   activeBattleId String?
 
-  // relations
-  playerHeroes PlayerHero[]
 }
 
-model PlayerHero {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  playerId  String
-  heroId    String // id of a base hero stored in code
-  level     Int
-  partySlot Int?
-
-  // relations
-  player Player @relation(fields: [playerId], references: [id])
-
-  // constraints
-  @@unique([playerId, partySlot])
-  @@unique([playerId, heroId])
-}

@@ -1,14 +1,6 @@
 import {DateTimeResolver} from 'graphql-scalars';
 import prisma from '@/lib/prisma';
-import {Player, PlayerHero, Resolvers} from '@/src/types';
-import {heroes} from "@/app/domain/hero-definitions";
-import {skills} from "@/app/domain/skill-definitions";
-import {
-    addHeroToPartySlot,
-    getPlayerHeroes,
-    getPlayerParty,
-    removeHeroFromPartySlot
-} from "@/app/api/graphql/transformers/player-hero-transformers";
+import {Player, Resolvers} from '@/src/types';
 
 export const resolvers: Resolvers = {
     DateTime: DateTimeResolver,
@@ -17,14 +9,6 @@ export const resolvers: Resolvers = {
             return prisma.player.findUnique({
                 where: {id}
             });
-        },
-        getAllHeroes: () => heroes,
-        getAllSkills: () => skills,
-        getPlayerHeroes: async (_, { playerId }): Promise<PlayerHero[]> => {
-            return getPlayerHeroes(playerId);
-        },
-        getParty: async (_, { playerId }): Promise<PlayerHero[]> => {
-            return getPlayerParty(playerId);
         }
     },
     Mutation: {
@@ -32,12 +16,6 @@ export const resolvers: Resolvers = {
             return prisma.player.create({
                 data: {id}
             });
-        },
-        addPlayerHeroToParty: async (_, { playerId, playerHeroId, slot }): Promise<PlayerHero> => {
-            return addHeroToPartySlot(playerId, playerHeroId, slot);
-        },
-        removePlayerHeroFromParty: async (_, { playerHeroId }): Promise<PlayerHero> => {
-            return removeHeroFromPartySlot(playerHeroId);
         }
     }
 };
