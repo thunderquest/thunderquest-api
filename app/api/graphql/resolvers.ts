@@ -11,7 +11,7 @@ export const resolvers: Resolvers = {
                 where: { id }
             });
             if (!player) {
-                return createError('Player not found', ErrorType.NotFound);
+                return createError('Player not found', ErrorType.NotFound, 'Unknown');
             }
             return {
                 __typename: 'Player',
