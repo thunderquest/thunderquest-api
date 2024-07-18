@@ -2,6 +2,7 @@ import { DateTimeResolver } from 'graphql-scalars';
 import prisma from '@/lib/prisma';
 import { ErrorType, Resolvers } from '@/src/types';
 import { withErrorHandling, createError } from './helpers';
+import { v4 as uuidv4 } from 'uuid';
 
 export const resolvers: Resolvers = {
     DateTime: DateTimeResolver,
@@ -11,7 +12,7 @@ export const resolvers: Resolvers = {
                 where: { id }
             });
             if (!player) {
-                return createError('Player not found', ErrorType.NotFound, 'Unknown');
+                return createError('Player not found', ErrorType.NotFound, uuidv4());
             }
             return {
                 __typename: 'Player',
