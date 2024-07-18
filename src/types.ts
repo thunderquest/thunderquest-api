@@ -17,9 +17,22 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Error = {
+  __typename?: 'Error';
+  errorId: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  type: ErrorType;
+};
+
+export enum ErrorType {
+  InvalidInput = 'INVALID_INPUT',
+  NotFound = 'NOT_FOUND',
+  ServerError = 'SERVER_ERROR'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createPlayer?: Maybe<Player>;
+  createPlayer: PlayerResult;
 };
 
 
@@ -36,9 +49,11 @@ export type Player = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type PlayerResult = Error | Player;
+
 export type Query = {
   __typename?: 'Query';
-  getPlayer?: Maybe<Player>;
+  getPlayer: PlayerResult;
 };
 
 
@@ -113,15 +128,22 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
+  PlayerResult: ( Error ) | ( Player );
+};
 
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Error: ResolverTypeWrapper<Error>;
+  ErrorType: ErrorType;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Player: ResolverTypeWrapper<Player>;
+  PlayerResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['PlayerResult']>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
@@ -130,9 +152,11 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
+  Error: Error;
   ID: Scalars['ID']['output'];
   Mutation: {};
   Player: Player;
+  PlayerResult: ResolversUnionTypes<ResolversParentTypes>['PlayerResult'];
   Query: {};
   String: Scalars['String']['output'];
 };
@@ -141,8 +165,15 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
+  errorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['ErrorType'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createPlayer?: Resolver<Maybe<ResolversTypes['Player']>, ParentType, ContextType, RequireFields<MutationCreatePlayerArgs, 'id'>>;
+  createPlayer?: Resolver<ResolversTypes['PlayerResult'], ParentType, ContextType, RequireFields<MutationCreatePlayerArgs, 'id'>>;
 };
 
 export type PlayerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Player'] = ResolversParentTypes['Player']> = {
@@ -153,14 +184,20 @@ export type PlayerResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PlayerResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlayerResult'] = ResolversParentTypes['PlayerResult']> = {
+  __resolveType: TypeResolveFn<'Error' | 'Player', ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getPlayer?: Resolver<Maybe<ResolversTypes['Player']>, ParentType, ContextType, RequireFields<QueryGetPlayerArgs, 'id'>>;
+  getPlayer?: Resolver<ResolversTypes['PlayerResult'], ParentType, ContextType, RequireFields<QueryGetPlayerArgs, 'id'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
+  Error?: ErrorResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Player?: PlayerResolvers<ContextType>;
+  PlayerResult?: PlayerResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 

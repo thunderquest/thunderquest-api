@@ -7,11 +7,24 @@ type Player {
   updatedAt: DateTime!
   activeBattleId: String
 }
+union PlayerResult = Player | Error
+
+type Error {
+  message: String!
+  type: ErrorType!
+  errorId: String!
+}
+
+enum ErrorType {
+  NOT_FOUND
+  INVALID_INPUT
+  SERVER_ERROR
+}
 
 type Query {
-  getPlayer(id: ID!): Player
+  getPlayer(id: ID!): PlayerResult!
 }
 
 type Mutation {
-  createPlayer(id: ID!): Player
+  createPlayer(id: ID!): PlayerResult!
 }

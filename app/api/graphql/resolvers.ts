@@ -1,21 +1,33 @@
-import {DateTimeResolver} from 'graphql-scalars';
+import { DateTimeResolver } from 'graphql-scalars';
 import prisma from '@/lib/prisma';
-import {Player, Resolvers} from '@/src/types';
+import { ErrorType, Resolvers } from '@/src/types';
+import { withErrorHandling, createError } from './helpers';
 
 export const resolvers: Resolvers = {
     DateTime: DateTimeResolver,
     Query: {
-        getPlayer: async (_, { id }): Promise<Player | null> => {
-            return prisma.player.findUnique({
-                where: {id}
+        getPlayer: withErrorHandling(async (_, { id }) => {
+            const player = await prisma.player.findUnique({
+                where: { id }
             });
-        }
+            if (!player) {
+                return createError('Player not found', ErrorType.NotFound);
+            }
+            return {
+                __typename: 'Player',
+                ...player
+            };
+        })
     },
     Mutation: {
-        createPlayer: async (_, { id }): Promise<Player> => {
-            return prisma.player.create({
-                data: {id}
+        createPlayer: withErrorHandling(async (_, { id }) => {
+            const player = await prisma.player.create({
+                data: { id }
             });
-        }
+            return {
+                __typename: 'Player',
+                ...player
+            };
+        })
     }
 };
