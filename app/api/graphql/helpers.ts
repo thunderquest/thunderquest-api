@@ -1,9 +1,7 @@
 import { Error, ErrorType } from '@/src/types';
 import { v4 as uuidv4 } from 'uuid';
 
-export function createError(message: string, type: ErrorType): Error {
-    const errorId = uuidv4();
-    console.error(`Error ID: ${errorId}, Type: ${type}, Message: ${message}`);
+export function createError(message: string, type: ErrorType, errorId: string): Error {
     return { message, type, __typename: 'Error', errorId };
 }
 
@@ -14,8 +12,12 @@ export function withErrorHandling(resolver: ResolverFunction): ResolverFunction 
         try {
             return await resolver(parent, args, context, info);
         } catch (err: any) {
+            const errorId = uuidv4();
             const errorMessage = err.message || 'An unexpected error occurred';
-            return createError(errorMessage, ErrorType.ServerError);
+            const stack = err.stack || 'No stack trace available';
+
+            console.error(`Error ID: ${errorId}, Type: ${ErrorType.ServerError}, Message: ${errorMessage}\nStack: ${stack}`);
+            return createError(errorMessage, ErrorType.ServerError, errorId);
         }
     };
 }
