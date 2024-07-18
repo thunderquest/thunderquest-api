@@ -8,12 +8,12 @@ export function createError(message: string, type: ErrorType): Error {
 }
 
 type ResolverFunction = (parent: any, args: any, context: any, info: any) => Promise<any>;
+
 export function withErrorHandling(resolver: ResolverFunction): ResolverFunction {
     return async (parent, args, context, info) => {
         try {
             return await resolver(parent, args, context, info);
         } catch (err: any) {
-            const [,, context] = args;
             const errorMessage = err.message || 'An unexpected error occurred';
             return createError(errorMessage, ErrorType.ServerError);
         }
